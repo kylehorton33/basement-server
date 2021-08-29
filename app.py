@@ -14,7 +14,7 @@ def record_weather():
     print(f"SERVER LOG - - [{log_time}] Weather Recorded")
 
 sched = BackgroundScheduler(daemon=True)
-sched.add_job(record_weather,'interval',minutes=1)
+sched.add_job(record_weather,'interval',minutes=15)
 sched.start()
 
 @app.route('/')

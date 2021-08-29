@@ -1,6 +1,6 @@
 import sqlite3
 
-DATABASE = 'data/sensorsData.db'
+DATABASE = 'data/database.db'
 
 def connect():
     conn = sqlite3.connect(DATABASE)
