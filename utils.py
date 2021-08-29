@@ -4,7 +4,7 @@ import requests
 OPENWEATHER_API_KEY = 'cfb278db7e23d4b26702d3edd4494800'
 
 def current_weather():
-    CITY_ID = 5283054 # Branford, CT as closest city
+    CITY_ID = 4839366 # New Haven, US
     res = requests.get(f'http://api.openweathermap.org/data/2.5/weather?id={CITY_ID}&appid={OPENWEATHER_API_KEY}&units=imperial')
 
     current_weather = res.json()
