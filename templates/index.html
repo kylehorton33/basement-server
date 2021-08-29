@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/style.css">
+    <title>Flask-House</title>
+</head>
+<body>
+    <h1>Flask-House</h1>
+    <h2>Latest Basement Data</h2>
+    <ul>
+        <li>Temperature: {{ temp }} F (Outside: {{ outside_temp}} F)</li>
+        <li>Humidity: {{ hum}} % (Outside: {{ outside_hum }} %)</li>
+        <li>Since: {{ timeoffset }}</li>
+        <li>Time: {{ time }}</li>
+    </ul>
+    <div class="gauge humidity-gauge">
+        <div class="gauge__body">
+            <div class="gauge__fill"></div>
+            <div class="gauge__cover">
+                <span>💧 <span class="gauge__value"></span> %</span>
+            </div>
+        </div>
+    </div>
+    <div class="gauge temperature-gauge">
+        <div class="gauge__body">
+            <div class="gauge__fill"></div>
+            <div class="gauge__cover">
+                <span>🌡️ <span class="gauge__value"></span> F</span>
+            </div>
+        </div>
+    </div>
+    <script>
+        const humidityGauge = document.querySelector(".humidity-gauge");
+        const temperatureGauge = document.querySelector(".temperature-gauge");
+
+        function setGaugeValue(gauge, value, hue) {
+            gauge.querySelector(".gauge__fill").style.transform = `rotate(${value / 100 / 2}turn`
+            gauge.querySelector(".gauge__fill").style.backgroundColor = `hsl(${hue}, 80%, ${value}%)`
+            gauge.querySelector(".gauge__value").textContent = `${value}`
+        }
+
+        setGaugeValue(humidityGauge, {{ hum }}, 250)
+        setGaugeValue(temperatureGauge, {{ temp }}, 5)
+    </script>
+</body>
+</html>
