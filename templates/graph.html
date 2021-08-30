@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.plot.ly/plotly-2.4.1.min.js"></script>
+    <link rel="stylesheet" href="static/style.css">
+    <title>Graphed Data</title>
+</head>
+<body>
+    <div id="graph" style="width:100;height:600px;"></div>
+
+    <br>
+
+    <a href="/">Back to Home</a>
+    
+    <script>
+        DHT_SENSOR_DATA = {{ DHT_data | safe }}
+        WEATHER_DATA = {{ WEATHER_data | safe }}
+
+        DHT_SENSOR_X = []
+        DHT_SENSOR_Y_TEMP = []
+        DHT_SENSOR_Y_HUM = []
+
+        WEATHER_X = []
+        WEATHER_Y_TEMP = []
+        WEATHER_Y_HUM = []
+
+        DHT_SENSOR_DATA.forEach((d) => {
+            DHT_SENSOR_X.push(d[0])
+            DHT_SENSOR_Y_TEMP.push(d[1])
+            DHT_SENSOR_Y_HUM.push(d[2])
+        })
+
+        WEATHER_DATA.forEach((d) => {
+            WEATHER_X.push(d[0])
+            WEATHER_Y_TEMP.push(d[1])
+            WEATHER_Y_HUM.push(d[2])
+        })
+
+        
+        var basementTemperatureSeries = {
+                x: DHT_SENSOR_X,
+                y: DHT_SENSOR_Y_TEMP,
+                type: 'scatter',
+                mode: 'markers',
+                name: 'data1',
+                line: {color: '#f18e85'},
+                name: 'Basement Temperature [C]'
+            }
+        var basementHumiditySeries = {
+                x: DHT_SENSOR_X,
+                y: DHT_SENSOR_Y_HUM,
+                type: 'scatter',
+                mode: 'markers',
+                name: 'data2',
+                yaxis: 'y2',
+                line: {color: '#765eed'},
+                name: 'Basement Humidity [%]'
+            }
+
+        var outsideTemperatureSeries = {
+                x: WEATHER_X,
+                y: WEATHER_Y_TEMP,
+                type: 'scatter',
+                mode: 'lines',
+                name: 'data1',
+                line: {color: '#f18e85'},
+                name: 'Outside Temperature [C]'
+            }
+        var outsideHumiditySeries = {
+                x: WEATHER_X,
+                y: WEATHER_Y_HUM,
+                type: 'scatter',
+                mode: 'lines',
+                name: 'data2',
+                yaxis: 'y2',
+                line: {color: '#765eed'},
+                name: 'Outside Humidity [%]'
+            }
+
+        var data = [basementTemperatureSeries, basementHumiditySeries, outsideTemperatureSeries, outsideHumiditySeries];
+
+        var layout = {
+            title: 'Temp / Humidity Data',
+            paper_bgcolor: '#e2e0eb',
+            yaxis: {
+                title: 'Temperature [C]',
+                range: [60,90]
+            },
+            yaxis2: {
+                title: 'Humidity [%]',
+                overlaying: 'y',
+                side: 'right',
+                range: [30,100]
+            }
+        };
+
+        GRAPH = document.getElementById('graph');
+
+        Plotly.newPlot(GRAPH, data, layout);
+    </script>
+    
+</body>
+</html>

@@ -4,6 +4,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 import db
 import utils
 from datetime import datetime
+import json
 
 app = Flask(__name__)
 
@@ -21,7 +22,7 @@ sched.start()
 def home():
     time, temp, hum = db.last_sensor_reading()
     timeoffset = utils.timeoffset(time)
-    outside_temp, outside_hum = utils.current_weather()
+    outside_temp, outside_hum, rain = utils.current_weather()
     templateData = {
 		'time': time,
 		'temp': temp,
@@ -31,6 +32,15 @@ def home():
         'outside_hum': outside_hum
 	}
     return render_template('index.html', **templateData)
+
+@app.route('/graph')
+def graph():
+    DHT_data = db.all_sensor_readings()
+    WEATHER_data = db.all_weather_readings()
+    return render_template('graph.html',
+        DHT_data=json.dumps(DHT_data),
+        WEATHER_data=json.dumps(WEATHER_data)
+    )
 
 @app.route('/api/v1/new', methods=['POST'])
 def new_record():

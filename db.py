@@ -30,3 +30,8 @@ def new_weather_reading(outside_temp, outside_hum):
     conn, curs = connect()
     curs.execute("INSERT INTO WEATHER_data values(datetime('now'), (?), (?))", (outside_temp, outside_hum))
     disconnect(conn)
+
+def all_weather_readings():
+    conn, curs = connect()
+    curs.execute("SELECT * FROM WEATHER_data")
+    return curs.fetchall()
