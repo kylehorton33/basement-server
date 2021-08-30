@@ -1,8 +1,8 @@
 import sqlite3
 
-conn = sqlite3.connect('database.db')
-print("Opened database successfully")
+conn = sqlite3.connect('data/database.db')
 
-conn.execute('CREATE TABLE sensor_data (name TEXT, addr TEXT, city TEXT, pin TEXT)')
-print("Table created successfully")
+conn.execute('CREATE TABLE IF NOT EXISTS DHT_data (timestamp DATETIME, temp NUMERIC, hum NUMERIC)')
+conn.execute('CREATE TABLE IF NOT EXISTS WEATHER_data (timestamp DATETIME, temp NUMERIC, hum NUMERIC)')
+
 conn.close()
