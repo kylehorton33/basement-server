@@ -8,7 +8,7 @@ from datetime import datetime
 app = Flask(__name__)
 
 def record_weather():
-    outside_temp, outside_hum = utils.current_weather()
+    outside_temp, outside_hum, rain = utils.current_weather()
     db.new_weather_reading(outside_temp, outside_hum)
     log_time = datetime.now().strftime("%d/%b/%Y %H:%M:%S")
     print(f"SERVER LOG - - [{log_time}] Weather Recorded")

@@ -1,10 +1,10 @@
 from datetime import datetime
 import requests
 
-OPENWEATHER_API_KEY = 'cfb278db7e23d4b26702d3edd4494800'
-
 def current_weather():
+    OPENWEATHER_API_KEY = 'cfb278db7e23d4b26702d3edd4494800'
     CITY_ID = 4839366 # New Haven, US
+
     res = requests.get(f'http://api.openweathermap.org/data/2.5/weather?id={CITY_ID}&appid={OPENWEATHER_API_KEY}&units=imperial')
 
     current_weather = res.json()
@@ -12,7 +12,12 @@ def current_weather():
     outside_temperature = current_weather["main"]["temp"]
     outside_humidity = current_weather["main"]["humidity"]
 
-    return outside_temperature, outside_humidity
+    try:
+        rain = current_weather["rain"]["1hr"]
+    except KeyError:
+        rain = 0
+
+    return outside_temperature, outside_humidity, rain
 
 def timeoffset(ts):
     date = datetime.strptime(ts, '%Y-%m-%d %H:%M:%S')
